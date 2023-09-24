@@ -1,0 +1,28 @@
+{
+  "capabilities": [
+    {
+      "maxInstances": 1,
+      "platformName": "android",
+      "platformVersion": "13.0",
+      "deviceName": "OPPO Reno5",
+      "udid": "987da754",
+      "autoGrantPermissions": true,
+      "ignoreHiddenApiPolicyError": true,
+      "automationName": "UiAutomator2"
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle": 2000,
+    "timeout": 30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://192.168.225.131:6000/wd/hub",
+    "host": "192.168.225.131",
+    "port": 6000,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": 4723,
+    "hubHost": "192.168.225.131",
+    "hubProtocol": "http"
+  }
+}

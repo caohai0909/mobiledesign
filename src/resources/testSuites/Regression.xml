@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<!--<suite name="Regression" parallel="tests" thread-count="1">-->
+<suite name="Regression"  parallel="tests" thread-count="2">
+    <test name="Executing On Oppo Reno5">
+        <parameter name="deviceName" value="OPPO Reno5"/>
+        <parameter name="udid" value="987da754"/>
+        <parameter name="systemPort" value="8201"/>
+        <classes>
+           <class name="tests.ExercisesTest"/>
+        </classes>
+    </test>
+</suite>

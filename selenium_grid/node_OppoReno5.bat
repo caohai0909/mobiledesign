@@ -1,1 +1,1 @@
-appium -p 6000 --nodeconfig oppoReno5_NodeConfig.json
+appium -p 4725 --nodeconfig oppoReno5_NodeConfig.json

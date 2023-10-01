@@ -17,10 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class TestUtils {
 
@@ -108,5 +107,26 @@ public class TestUtils {
         boolean useLetters = true;
         boolean useNumbers = true;
         return RandomStringUtils.random(stringLength, useLetters, useNumbers);
+    }
+
+    public static String generateRandomTimeString() {
+        // Get the current time
+        LocalTime currentTime = LocalTime.now();
+
+        // Define a format for the time string
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
+
+        // Format the time as a string
+        String timeString = currentTime.format(formatter);
+
+        // Generate 4 random digits
+        Random random = new Random();
+        int randomDigits = random.nextInt(10000); // Generates a random integer between 0 (inclusive) and 10000 (exclusive)
+
+        // Ensure the randomDigits has exactly 4 digits and pad with zeros if necessary
+        String randomDigitsString = String.format("%04d", randomDigits);
+
+        // Combine the time string and random digits
+        return timeString + randomDigitsString;
     }
 }

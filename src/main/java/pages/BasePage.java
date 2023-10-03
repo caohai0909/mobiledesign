@@ -1,38 +1,17 @@
 package pages;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
-import io.appium.java_client.touch.offset.PointOption;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import io.appium.java_client.MobileElement;
 import utils.Constant;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BasePage {
-
-//    private WebDriver appiumDriver;
-//    private Dimension mobileScreenSize = appiumDriver.manage().window().getSize();
-//    private TouchAction touchAction = new TouchAction((PerformsTouchActions) appiumDriver);
-
     protected AppiumDriver<MobileElement> appiumDriver;
-
-    private final int MID_POINT_FACTOR = 2;
-    private final double SCREEN_SIZE_PERCENTAGE = 1.0D;
-
     protected BasePage(AppiumDriver<MobileElement>  driver){
         this.appiumDriver=driver;
         PageFactory.initElements(new AppiumFieldDecorator(this.appiumDriver), this);
@@ -52,8 +31,13 @@ public class BasePage {
         waitForVisibility(element);
     }
 
-    protected void waitForSecond(long second){
-        appiumDriver.manage().timeouts().implicitlyWait(second, TimeUnit.SECONDS);
+    protected void waitForSecond(long milliSec) {
+        appiumDriver.manage().timeouts().implicitlyWait(milliSec, TimeUnit.MILLISECONDS);
+        try {
+            Thread.sleep(milliSec);
+        } catch (InterruptedException e){
+            System.out.println("Failed to Waiting: " + milliSec + "millisecond");
+        }
     }
 
     /* Get element's attribute */
@@ -76,9 +60,13 @@ public class BasePage {
 
     /* Perform click action on an element by its locator */
     protected void clickElement(By locator) {
-        MobileElement element = appiumDriver.findElement(locator);
-        System.out.println("Element: " + element);
-        clickElement(element);
+        try {
+            MobileElement element = appiumDriver.findElement(locator);
+            System.out.println("Element: " + element);
+            clickElement(element);
+        }catch (Exception e){
+            System.out.println("Failed to Click Element: " + locator);
+        }
     }
 
     /* Send keys to an input-field element */
@@ -91,7 +79,12 @@ public class BasePage {
     protected void sendKeysToElement(By locator, String input) {
         MobileElement element = appiumDriver.findElement(locator);
         System.out.println("Element: " + element);
+        this.clearElementInputField(element);
         this.sendKeysToElement(element, input);
+    }
+
+    protected void pressBack(){
+        appiumDriver.navigate().back();
     }
 
     /* Clear text in an input-field element */
@@ -120,11 +113,18 @@ public class BasePage {
 
     /* Check if an element is existed by its locator */
     protected boolean isElementPresent(By locator) {
-        waitForSecond(2);
+        waitForSecond(3000);
         List<MobileElement> elements = appiumDriver.findElements(locator);
         return elements.size() > 0;
     }
 
+    public MobileElement fluentWait(By locator) {
+        Wait<AppiumDriver> wait = new FluentWait<AppiumDriver>(appiumDriver)
+                .withTimeout(30, TimeUnit.SECONDS)
+                .pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class);
 
+        return wait.until(driver -> appiumDriver.findElement(locator));
+    }
 
 }

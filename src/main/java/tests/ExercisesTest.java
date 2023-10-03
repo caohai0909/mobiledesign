@@ -18,7 +18,7 @@ import java.net.MalformedURLException;
 public class ExercisesTest extends BaseTest{
 
     @Test(description = "Verify that user can create new [Exercises] successfully for mandatory fields", dataProvider = "exerciseMandatoryData")
-    public void verifyThatUserCanCreateNewExerciseSuccessfullyForMandatoryFields(String exerciseName, String exerciseNotes, String category, String primaryMuscle) throws MalformedURLException {
+    public void TC001_verifyThatUserCanCreateNewExerciseSuccessfullyForMandatoryFields(String exerciseName, String exerciseNotes, String category, String primaryMuscle) throws MalformedURLException {
         AppiumDriver<MobileElement> appiumDriver = getDriver();
         CommonPage commonPage = new CommonPage(appiumDriver);
         ExercisesPage exercisesPage = new ExercisesPage(appiumDriver);
@@ -41,7 +41,7 @@ public class ExercisesTest extends BaseTest{
     }
 
     @Test(description = "Verify that user can create new [Exercises] successfully for full fields", dataProvider = "exerciseFullData")
-    public void verifyThatUserCanCreateNewExerciseSuccessfullyForFullFields(String exerciseName, String exerciseNotes, String category, String primaryMuscle) throws MalformedURLException {
+    public void TC002_verifyThatUserCanCreateNewExerciseSuccessfullyForFullFields(String exerciseName, String exerciseNotes, String category, String primaryMuscle) throws MalformedURLException {
         AppiumDriver<MobileElement> appiumDriver = getDriver();
         CommonPage commonPage = new CommonPage(appiumDriver);
         ExercisesPage exercisesPage = new ExercisesPage(appiumDriver);

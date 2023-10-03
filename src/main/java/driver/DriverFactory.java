@@ -33,7 +33,6 @@ public class DriverFactory {
 
     private AppiumDriver<MobileElement> initAppiumDriver(String deviceName, String udid, String systemPort) throws MalformedURLException {
         AppiumServiceBuilder appiumServerBuilder = new AppiumServiceBuilder();
-//        appiumServerBuilder.withArgument(AndroidServerFlagEx.ALLOW_INSECURE, "chromedriver_autodownload");
         appiumServerBuilder.withIPAddress("192.168.255.131").usingAnyFreePort();
         appiumServer = AppiumDriverLocalService.buildService(appiumServerBuilder);
         appiumServer.start();

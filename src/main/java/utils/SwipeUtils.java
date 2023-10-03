@@ -2,7 +2,6 @@ package utils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
@@ -10,7 +9,6 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -22,14 +20,14 @@ public class SwipeUtils {
     private final double SCREEN_SIZE_PERCENTAGE = 1.0D;
     private final int MID_POINT_FACTOR = 2;
 
-    private final WebDriver driver;
+    private final AppiumDriver<MobileElement> appiumDriver;
     private final Dimension mobileScreenSize;
-    private TouchAction touchAction;
+    private final TouchAction touchAction;
 
-    public SwipeUtils(WebDriver appiumDriver) {
-        this.driver = appiumDriver;
+    public SwipeUtils(AppiumDriver<MobileElement> appiumDriver) {
+        this.appiumDriver = appiumDriver;
         this.mobileScreenSize = appiumDriver.manage().window().getSize();
-        this.touchAction = new TouchAction((PerformsTouchActions) appiumDriver);
+        this.touchAction = new TouchAction(appiumDriver);
     }
 
     public void horizontallySwipeToElem(By locator, String direction, int scrollTimes) {
@@ -100,9 +98,9 @@ public class SwipeUtils {
     }
 
     private boolean isDisplayed(final By locator) {
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        appiumDriver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         try {
-            WebDriverWait wait = new WebDriverWait(driver, 2);
+            WebDriverWait wait = new WebDriverWait(appiumDriver, 2);
             return wait.until(new ExpectedCondition<Boolean>() {
                 @Override
                 public Boolean apply(WebDriver appiumDriver) {
@@ -116,8 +114,8 @@ public class SwipeUtils {
 
     /* The following methods perform swipe from a visible element to another visible element */
     public void swipeToElement(By fromLocator, By toLocator) {
-        ElementOption fromElement = new ElementOption().withElement(driver.findElement(fromLocator));
-        ElementOption toElement = new ElementOption().withElement(driver.findElement(toLocator));
+        ElementOption fromElement = new ElementOption().withElement(appiumDriver.findElement(fromLocator));
+        ElementOption toElement = new ElementOption().withElement(appiumDriver.findElement(toLocator));
         performSwipe(toElement, fromElement, 500);
     }
 
@@ -274,7 +272,30 @@ public class SwipeUtils {
     }
 
     private boolean isElementFound(By locator) {
-        List<MobileElement> elements = driver.findElements(locator);
+        List<MobileElement> elements = appiumDriver.findElements(locator);
         return elements.isEmpty();
+    }
+
+    public void swipeElementWithPercentage(By locator, double percentage){
+        MobileElement swipeElement = appiumDriver.findElement(locator);
+        int startX = swipeElement.getLocation().getX();
+        int startY = swipeElement.getLocation().getY() + (swipeElement.getSize().getHeight()/2) ;
+
+        System.out.println("Start X: " + startX);
+        System.out.println("Start Y: " + startY);
+
+        // Calculate the end coordinates for the swipe based on the percentage
+        int endX = (int)(swipeElement.getSize().getWidth() * percentage);
+        int endY = startY;
+
+        System.out.println("End X: " + endX);
+        System.out.println("End Y: " + endY);
+
+        // Perform the swipe action
+        TouchAction touchAction = new TouchAction(appiumDriver);
+        touchAction.press(PointOption.point(startX, startY))
+                .moveTo(PointOption.point(endX, endY))
+                .release()
+                .perform();
     }
 }

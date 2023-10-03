@@ -1,13 +1,28 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
-<!--<suite name="Regression" parallel="tests" thread-count="1">-->
-<suite name="Regression"  parallel="tests" thread-count="2">
-    <test name="Executing On Oppo Reno5">
+<suite name="Regression"  parallel="tests" thread-count="1">
+    <test name="Executing: ExercisesTest - On Oppo Reno5">
         <parameter name="deviceName" value="OPPO Reno5"/>
         <parameter name="udid" value="987da754"/>
         <parameter name="systemPort" value="8201"/>
         <classes>
-           <class name="tests.ExercisesTest"/>
+            <class name="tests.ExercisesTest"/>
+        </classes>
+    </test>
+    <test name="Executing: WorkoutsTest - On Oppo Reno5">
+        <parameter name="deviceName" value="OPPO Reno5"/>
+        <parameter name="udid" value="987da754"/>
+        <parameter name="systemPort" value="8201"/>
+        <classes>
+            <class name="tests.WorkoutsTest"/>
+        </classes>
+    </test>
+    <test name="Executing: E2E Test - On Oppo Reno5">
+        <parameter name="deviceName" value="OPPO Reno5"/>
+        <parameter name="udid" value="987da754"/>
+        <parameter name="systemPort" value="8201"/>
+        <classes>
+            <class name="tests.E2ETest"/>
         </classes>
     </test>
 </suite>

@@ -21,10 +21,6 @@ public class example {
             Thread.sleep(5000);
             driver.findElement(By.xpath("//android.view.View[@content-desc=\"Exercises\"]/parent::android.view.View")).click();
 
-
-
-
-
             Thread.sleep(10000);
             driver.quit();
             System.out.println("Execution end..");

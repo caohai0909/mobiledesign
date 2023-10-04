@@ -106,7 +106,7 @@ public class AddNewWorkoutTemplatePage extends BasePage {
     }
 
     public void swipeRPE(double percentage){
-        waitForSecond(2000);
+        waitForSecond(3000);
         swipeUtils.swipeElementWithPercentage(rpeSeekBar.getBy(), percentage);
     }
 
